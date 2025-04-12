@@ -1,4 +1,4 @@
-#🔸 Minerva HX
+# 🔸 Minerva HX
 - Vibe : Stratégie, puissance tranquille, élégance latine.
 - Signification : Minerve est la déesse romaine de la sagesse, des arts, et de la guerre stratégique. Une vraie métaphore d’une voiture intelligente et performante.
 - HX pour Hybrid Experimental : très techno sans en faire trop.
