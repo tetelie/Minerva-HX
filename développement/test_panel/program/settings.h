@@ -1,4 +1,4 @@
 #pragma once
 
-void saveSoundSettings();
-void loadSoundSettings();
+void saveSettings();
+void loadSettings();

@@ -1,5 +1,6 @@
 #include "menu.h"
 #include "screen.h"
+#include "theme.h"
 
 int selectedOption = 0;
 String menuItems[] = {"Mappings", "Joystick", "Potentiometer", "Sound Settings", "Color Settings", "Quit"};
@@ -22,8 +23,8 @@ void drawMenu(int selected) {
     int y = yStart + (i - scrollOffset) * spacing;
 
     if (i == selected) {
-      tft.fillRect(xLeft - 10, y - 5, 180, 30, ST77XX_BLUE);  // Fond bleu pour l'élément sélectionné
-      tft.setTextColor(ST77XX_WHITE, ST77XX_BLUE);
+      tft.fillRect(xLeft - 10, y - 5, 180, 30, getMainColor());  // Fond bleu pour l'élément sélectionné
+      tft.setTextColor(ST77XX_WHITE, getMainColor());
     } else {
       tft.setTextColor(ST77XX_WHITE, ST77XX_BLACK);
     }

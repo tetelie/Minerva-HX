@@ -3,6 +3,7 @@
 #include "joystick.h"
 #include "buzzer.h"
 #include "menu.h"
+#include "theme.h"
 
 void joystickLiveView() {
   tft.fillScreen(ST77XX_BLACK);
@@ -14,12 +15,12 @@ void joystickLiveView() {
   // Jauge X - barre horizontale
   tft.setCursor(10, 50);
   tft.print("X:");
-  tft.drawRect(40, 50, 160, 10, ST77XX_WHITE);  // Jauge X horizontale
+  //tft.drawRect(40, 50, 160, 10, ST77XX_WHITE);  // Jauge X horizontale
 
   // Jauge Y - barre horizontale
   tft.setCursor(10, 80);
   tft.print("Y:");
-  tft.drawRect(40, 80, 160, 10, ST77XX_WHITE);  // Jauge Y horizontale
+  //tft.drawRect(40, 80, 160, 10, ST77XX_WHITE);  // Jauge Y horizontale
 
   // Variables pour afficher les valeurs
   int lastX = -1;
@@ -41,17 +42,23 @@ void joystickLiveView() {
     int xBarLength = map(xVal, 0, 4095, 0, 160);  // Taille de la barre X
     int yBarLength = map(yVal, 0, 4095, 0, 160);  // Taille de la barre Y
 
-    // Mise à jour de la jauge X
+    // Mise à jour intelligente de la jauge X
     if (xBarLength != lastX) {
-      tft.fillRect(40, 50, 160, 10, ST77XX_BLACK);  // Efface l'ancienne jauge
-      tft.fillRect(40, 50, xBarLength, 10, ST77XX_RED);  // Nouvelle jauge
+      if (xBarLength > lastX) {
+        tft.fillRect(40 + lastX, 50, xBarLength - lastX, 10, getMainColor());
+      } else {
+        tft.fillRect(40 + xBarLength, 50, lastX - xBarLength, 10, ST77XX_BLACK);
+      }
       lastX = xBarLength;
     }
 
-    // Mise à jour de la jauge Y
+    // Mise à jour intelligente de la jauge Y
     if (yBarLength != lastY) {
-      tft.fillRect(40, 80, 160, 10, ST77XX_BLACK);  // Efface l'ancienne jauge
-      tft.fillRect(40, 80, yBarLength, 10, ST77XX_GREEN);  // Nouvelle jauge
+      if (yBarLength > lastY) {
+        tft.fillRect(40 + lastY, 80, yBarLength - lastY, 10, getMainColor());
+      } else {
+        tft.fillRect(40 + yBarLength, 80, lastY - yBarLength, 10, ST77XX_BLACK);
+      }
       lastY = yBarLength;
     }
 

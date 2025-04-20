@@ -8,13 +8,14 @@
 #include "menu_sound.h"
 #include "menu_joystick.h"
 #include "menu_potentiometer.h"
+#include "menu_theme.h"
 #include "pin.h"
 
 void setup() {
   Serial.begin(115200);     // set broadcast channel
   init_pin();               // set pin mode
   init_screen();            // setup screen
-  loadSoundSettings();      // load settings from flash memory
+  loadSettings();      // load settings from flash memory
   showLogoWithMelody();     // startup
   drawMenu(selectedOption); // display main menu
 }
@@ -56,7 +57,7 @@ void loop() {
         soundSettingsMenu();
         break;
       case 4:
-        // Actions pour "Color Settings"
+        themeSettingsMenu();
         break;
       case 5:
         // Quitter l'application
