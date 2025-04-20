@@ -28,16 +28,14 @@ void loop() {
 
   // Joystick en haut
   if (yVal > 3000) {
-    selectedOption--;
-    if (selectedOption < 0) selectedOption = menuSize - 1;
+    navigateMenu(-1);
     playMenuSound();
     drawMenu(selectedOption);
     delay(150);
   }
   // Joystick en bas
   else if (yVal < 1000) {
-    selectedOption++;
-    if (selectedOption >= menuSize) selectedOption = 0;
+    navigateMenu(1);
     playMenuSound();
     drawMenu(selectedOption);
     delay(150);
