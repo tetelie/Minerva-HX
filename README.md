@@ -1,25 +1,25 @@
 # 🔸 Minerva HX
 
-Logiciels:
+## Logiciels:
   - LightBurn
   - Atom
   - Arduino IDE
   - Github Desktop
   - Git
 
-Sites web:
+## Sites web:
   - ChatGPT
   - boxes py
   - Github
 
-Machine:
+## Machine:
   - Découpeuse Sculpfun S9
 
-Matériels:
+## Matériels:
   - feuille de bois de tilleul 30x21cm
   - pieds à coulisse
 
-Composants:
+## Composants:
   - ESP-32 WROVER
   - Boutons
   - Sliders
