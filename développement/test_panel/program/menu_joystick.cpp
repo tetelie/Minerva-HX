@@ -1,6 +1,6 @@
 #include "menu_joystick.h"
 #include "screen.h"
-#include "joystick.h"
+#include "pin.h"
 #include "buzzer.h"
 #include "menu.h"
 #include "theme.h"
@@ -35,9 +35,9 @@ void joystickLiveView() {
   int lastYVal = -1;
 
   while (inJoystickView) {
-    int xVal = analogRead(xyzPins1[0]);
-    int yVal = analogRead(xyzPins1[1]);
-    int zVal = digitalRead(xyzPins1[2]);
+    int xVal = analogRead(JOYSTICK_1_X);
+    int yVal = analogRead(JOYSTICK_1_Y);
+    int zVal = digitalRead(JOYSTICK_1_Z);
 
     int xBarLength = map(xVal, 0, 4095, 0, 160);  // Taille de la barre X
     int yBarLength = map(yVal, 0, 4095, 0, 160);  // Taille de la barre Y

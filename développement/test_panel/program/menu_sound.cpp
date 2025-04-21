@@ -1,7 +1,7 @@
 #include "menu_sound.h"
 #include "screen.h"
 #include "buzzer.h"
-#include "joystick.h"
+#include "pin.h"
 #include "settings.h"
 #include "menu.h"
 #include "theme.h"
@@ -40,9 +40,9 @@ void soundSettingsMenu() {
   delay(150);
   bool inSoundMenu = true;
   while (inSoundMenu) {
-    int xVal = analogRead(xyzPins1[0]);
-    int yVal = analogRead(xyzPins1[1]);
-    int zVal = digitalRead(xyzPins1[2]);
+    int xVal = analogRead(JOYSTICK_1_X);
+    int yVal = analogRead(JOYSTICK_1_Y);
+    int zVal = digitalRead(JOYSTICK_1_Z);
 
     // Joystick vers le haut
     if (yVal > 3000) {

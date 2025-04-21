@@ -1,7 +1,7 @@
 #include "menu_theme.h"
 #include "screen.h"
 #include "buzzer.h"
-#include "joystick.h"
+#include "pin.h"
 #include "settings.h"
 #include "menu.h"
 #include "theme.h"
@@ -53,9 +53,9 @@ void themeSettingsMenu() {
     delay(150);
     bool inThemeMenu = true;
     while (inThemeMenu) {
-        int xVal = analogRead(xyzPins1[0]);  // Lecture du joystick X
-        int yVal = analogRead(xyzPins1[1]);  // Lecture du joystick Y
-        int zVal = digitalRead(xyzPins1[2]); // Lecture du bouton
+        int xVal = analogRead(JOYSTICK_1_X);  // Lecture du joystick X
+        int yVal = analogRead(JOYSTICK_1_Y);  // Lecture du joystick Y
+        int zVal = digitalRead(JOYSTICK_1_Z); // Lecture du bouton
 
         // Joystick vers le haut
         if (yVal > 3000) {

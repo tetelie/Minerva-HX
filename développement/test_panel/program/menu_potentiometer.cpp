@@ -1,6 +1,6 @@
 #include "menu_potentiometer.h"
 #include "screen.h"
-#include "joystick.h"
+#include "pin.h"
 #include "buzzer.h"
 #include "menu.h"
 #include "theme.h"
@@ -36,7 +36,7 @@ void potentiometerLiveView() {
   while (inJoystickView) {
     int xVal = analogRead(15);
     int yVal = 4095 - analogRead(0);
-    int zVal = digitalRead(xyzPins1[2]);
+    int zVal = digitalRead(JOYSTICK_1_Z);
 
     int xBarLength = map(xVal, 0, 4095, 0, 160);
     int yBarLength = map(yVal, 0, 4095, 0, 160);

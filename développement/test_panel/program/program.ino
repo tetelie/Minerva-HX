@@ -2,7 +2,6 @@
 #include "buzzer.h"
 #include "settings.h"
 #include "screen.h"
-#include "joystick.h"
 #include "startup.h"
 #include "menu.h"
 #include "menu_sound.h"
@@ -26,9 +25,9 @@ void setup() {
 
 
 void loop() {
-  int xVal = analogRead(xyzPins1[0]);   // read joystick x axis
-  int yVal = analogRead(xyzPins1[1]);   // read joystick y axis
-  int zVal = digitalRead(xyzPins1[2]);  // read joystick z axis
+  int xVal = analogRead(JOYSTICK_1_X);   // read joystick x axis
+  int yVal = analogRead(JOYSTICK_1_Y);   // read joystick y axis
+  int zVal = digitalRead(JOYSTICK_1_Z);  // read joystick z axis
 
   readMapSwitch();
 
