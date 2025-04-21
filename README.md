@@ -1,6 +1,6 @@
 # 🔸 Minerva HX
 
-## Logiciels:
+### Logiciels:
   - LightBurn
   - Atom
   - Arduino IDE
