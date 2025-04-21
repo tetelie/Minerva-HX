@@ -1,23 +1,22 @@
-#include "map_minervahx.h"
+#include "map_test.h"
 #include <Arduino.h>
 #include "screen.h"
 #include "theme.h"
 
 
-void minevervaHxMap_setup()
+void testMap_setup()
 {
 
   tft.fillScreen(ST77XX_BLACK);
   tft.setTextSize(2);
   tft.setTextColor(getMainColor());
   tft.setCursor(0, 10);
-  tft.println("MinervaHx Mapping");
+  tft.println("Test Map");
 
 }
 
-void minevervaHxMap_loop()
+void testMap_loop()
 {
-  Serial.print("MinervaHx map running.. \n");
 
   static int lastX = -1;
 

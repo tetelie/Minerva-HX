@@ -8,6 +8,7 @@
 #include "menu_joystick.h"
 #include "menu_potentiometer.h"
 #include "menu_theme.h"
+#include "menu_mapping.h"
 #include "pin.h"
 #include "mapping.h"
 
@@ -55,9 +56,10 @@ void loop() {
   }
   // Bouton pressé
   if (zVal == LOW) {
+    playMenuSound();
     switch (selectedOption) {
       case 0:
-        // Actions pour le menu "Mappings"
+        mappingSettingsMenu();
         break;
       case 1:
         joystickLiveView();

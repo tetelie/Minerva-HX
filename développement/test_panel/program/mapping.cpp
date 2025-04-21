@@ -4,22 +4,29 @@
 #include "theme.h"
 #include "buzzer.h"
 #include "map_minervahx.h"
+#include "map_test.h"
 
 int map_buffer = 0;
 int mapping = 0;
 
 int activeMapIndex = 1;
 
+String mappingOptions[] = {"None", "MinervaHx", "Test"};
+int mappingCount = 3;
+
+
 typedef void (*MapFunction)();
 
 MapFunction maps_loop[] = {
   nullptr,
-  minevervaHxMap_loop
+  minevervaHxMap_loop,
+  testMap_loop
 };
 
 MapFunction maps_setup[] = {
   nullptr,
-  minevervaHxMap_setup
+  minevervaHxMap_setup,
+  testMap_setup
 };
 
 void init_map(){
@@ -48,14 +55,40 @@ void run_map()
   maps_loop[activeMapIndex]();
 }
 
-void start_map()
-{
+void start_map() {
+  int xOffset = 50;  // Ajuste cette valeur pour centrer horizontalement à la main
+
   tft.fillScreen(ST77XX_BLACK);
-  tft.setTextSize(3);
-  tft.setTextColor(getMainColor());
-  tft.setCursor(0, 30);
-  tft.println("Start Mapping..");
-  delay(1000);
+
+  uint16_t boxColor = getMainColor();
+  uint16_t textColor = ST77XX_WHITE;
+  int boxX = xOffset;
+  int boxY = 60;
+  int boxW = 240 - 20;  // Garde des marges égales
+  int boxH = 100;
+
+  // Cadre arrondi
+  tft.drawRoundRect(boxX, boxY, boxW, boxH, 15, boxColor);
+  tft.drawRoundRect(boxX + 2, boxY + 2, boxW - 4, boxH - 4, 13, boxColor);
+
+  // Titre
+  tft.setTextSize(2);
+  tft.setTextColor(textColor);
+  tft.setCursor(boxX + 20, boxY + 20);  // Décalage horizontal depuis la gauche du cadre
+  tft.println("Starting Map");
+
+  // Nom de la map
+  tft.setTextSize(1);
+  tft.setCursor(boxX + 20, boxY + 60);
+  tft.print(mappingOptions[activeMapIndex]);
+
+  // Petites bulles animées (optionnel)
+  for (int i = 0; i < 3; i++) {
+    tft.fillCircle(boxX + boxW - 40 + i * 8, boxY + boxH - 15, 3, boxColor);
+    delay(600);
+  }
+
+  delay(500);
   tft.fillScreen(ST77XX_BLACK);
 
   maps_setup[activeMapIndex]();

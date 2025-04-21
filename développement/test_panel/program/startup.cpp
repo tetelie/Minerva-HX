@@ -19,7 +19,7 @@ void showLogoWithMelody() {
 
   while (millis() - startTime < 3000) {
     if (!notePlaying && noteIndex < 6) {
-      tone(BUZZER_PIN, melody[noteIndex], durations[noteIndex]);
+      if(soundEnabled)tone(BUZZER_PIN, melody[noteIndex], durations[noteIndex]);
       noteStartTime = millis();
       notePlaying = true;
     }

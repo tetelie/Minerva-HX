@@ -1,9 +1,11 @@
 #include "menu.h"
 #include "screen.h"
 #include "theme.h"
+#include "mapping.h"
+#include "buzzer.h"
 
 int selectedOption = 0;
-String menuItems[] = {"Mappings", "Joystick", "Potentiometer", "Sound Settings", "Color Settings", "Quit"};
+String menuItems[] = {"Mappings", "Joysticks", "Potentiometers", "Sound", "Theme", "Quit"};
 int menuSize = 6;  // Total des options
 int visibleItems = 4;  // Nombre d'éléments visibles à l'écran
 
@@ -12,35 +14,65 @@ int scrollOffset = 0;
 
 void drawMenu(int selected) {
   tft.fillScreen(ST77XX_BLACK);
+
+  // En-tête info
+  tft.setTextSize(1);
+  tft.setTextColor(ST77XX_WHITE);
+  tft.setCursor(10, 10);
+  tft.print("Map: ");
+  tft.print(mappingOptions[activeMapIndex]);
+  tft.print("  |  Color: ");
+  tft.print(colorOptions[currentMainColor]);
+  tft.print("  |  Sound: ");
+  tft.print(currentSound);
+
+  // Paramètres du menu
+  int cardW = 200;
+  int cardH = 35;
+  int cardX = (240 - cardW) / 2 + 40;  // Centré horizontalement
+  int yStart = 44;
+  int spacing = 45;
+
   tft.setTextSize(2);
+  tft.setTextColor(ST77XX_WHITE);
 
-  int yStart = 60;  // Position de départ en Y
-  int spacing = 40;  // Espacement entre les options
-  int xLeft = 30; // Marge gauche
-
-  // Affiche les options visibles
   for (int i = scrollOffset; i < scrollOffset + visibleItems && i < menuSize; i++) {
     int y = yStart + (i - scrollOffset) * spacing;
 
     if (i == selected) {
-      tft.fillRect(xLeft - 10, y - 5, 180, 30, getMainColor());  // Fond bleu pour l'élément sélectionné
-      tft.setTextColor(ST77XX_WHITE, getMainColor());
+      // Carte sélectionnée
+      tft.fillRoundRect(cardX, y, cardW, cardH, 8, getMainColor());
+      tft.drawRoundRect(cardX, y, cardW, cardH, 8, ST77XX_WHITE);
+      tft.setTextColor(ST77XX_WHITE);
     } else {
-      tft.setTextColor(ST77XX_WHITE, ST77XX_BLACK);
+      // Carte normale
+      tft.drawRoundRect(cardX, y, cardW, cardH, 8, ST77XX_WHITE);
+      tft.setTextColor(ST77XX_WHITE);
     }
 
-    tft.setCursor(xLeft, y);
-    tft.print(menuItems[i]);
+    // Centrage du texte
+    String label = menuItems[i];
+    int16_t x1, y1;
+    uint16_t w, h;
+    tft.getTextBounds(label, 0, 0, &x1, &y1, &w, &h);
+    int textX = cardX + (cardW - w) / 2;
+    int textY = y + (cardH - h) / 2;
+
+    tft.setCursor(textX, textY);
+    tft.print(label);
   }
 
-  // Dessiner une flèche vers le haut (si possible de défiler vers le haut)
+  // Flèches de défilement
   if (scrollOffset > 0) {
-    tft.fillTriangle(110, 40, 120, 30, 130, 40, ST77XX_WHITE);  // Flèche vers le haut
+    int t = 40;
+    int u = 12;
+    tft.fillTriangle(120+t, yStart - 35+u, 130+t, yStart - 20+u, 110+t, yStart - 20+u, ST77XX_WHITE);  // Flèche haut (pointe vers le haut)
   }
 
-  // Dessiner une flèche vers le bas (si possible de défiler vers le bas)
   if (scrollOffset + visibleItems < menuSize) {
-    tft.fillTriangle(110, yStart + visibleItems * spacing + 10, 120, yStart + visibleItems * spacing + 20, 130, yStart + visibleItems * spacing + 10, ST77XX_WHITE);  // Flèche vers le bas
+    int arrowY = yStart + visibleItems * spacing - 6;
+    int t = 40;
+    tft.fillTriangle(120+t, arrowY + 20, 130+t, arrowY + 5, 110+t, arrowY + 5, ST77XX_WHITE);  // Flèche bas
   }
 }
 
