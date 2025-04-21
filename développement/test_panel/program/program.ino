@@ -83,5 +83,6 @@ void loop() {
   {
     start_map();
   }
+  run_map();
 }
 }

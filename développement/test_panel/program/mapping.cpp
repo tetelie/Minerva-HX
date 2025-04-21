@@ -3,9 +3,24 @@
 #include "screen.h"
 #include "theme.h"
 #include "buzzer.h"
+#include "map_minervahx.h"
 
 int map_buffer = 0;
 int mapping = 0;
+
+int activeMapIndex = 1;
+
+typedef void (*MapFunction)();
+
+MapFunction maps_loop[] = {
+  nullptr,
+  minevervaHxMap_loop
+};
+
+MapFunction maps_setup[] = {
+  nullptr,
+  minevervaHxMap_setup
+};
 
 void init_map(){
   readMapSwitch();
@@ -28,6 +43,11 @@ int updateMapping(){
   return 0;
 }
 
+void run_map()
+{
+  maps_loop[activeMapIndex]();
+}
+
 void start_map()
 {
   tft.fillScreen(ST77XX_BLACK);
@@ -37,4 +57,6 @@ void start_map()
   tft.println("Start Mapping..");
   delay(1000);
   tft.fillScreen(ST77XX_BLACK);
+
+  maps_setup[activeMapIndex]();
 }
