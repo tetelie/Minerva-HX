@@ -33,7 +33,7 @@ void loop() {
   readMapSwitch();
 
   if(!mapping){ // si mapping = 0
-    if(updateMappingBuffer())
+    if(updateMapping())
     {
       drawMenu(selectedOption);
     }
@@ -80,7 +80,9 @@ void loop() {
   }
 
 }else{
-  tft.fillScreen(ST77XX_BLACK);
-  updateMappingBuffer();
+  if(updateMapping())
+  {
+    start_map();
+  }
 }
 }
