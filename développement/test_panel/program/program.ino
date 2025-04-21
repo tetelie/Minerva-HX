@@ -10,6 +10,8 @@
 #include "menu_potentiometer.h"
 #include "menu_theme.h"
 #include "pin.h"
+#include "mapping.h"
+
 
 void setup() {
   Serial.begin(115200);     // set broadcast channel
@@ -18,14 +20,25 @@ void setup() {
   loadSettings();      // load settings from flash memory
   showLogoWithMelody();     // startup
   drawMenu(selectedOption); // display main menu
+  init_map();
 }
+
+
 
 void loop() {
   int xVal = analogRead(xyzPins1[0]);   // read joystick x axis
   int yVal = analogRead(xyzPins1[1]);   // read joystick y axis
   int zVal = digitalRead(xyzPins1[2]);  // read joystick z axis
 
+  readMapSwitch();
 
+  if(!mapping){ // si mapping = 0
+    if(updateMappingBuffer())
+    {
+      drawMenu(selectedOption);
+    }
+
+  //Serial.print(mapping);
 
   // Joystick en haut
   if (yVal > 3000) {
@@ -65,4 +78,9 @@ void loop() {
     }
     delay(300);
   }
+
+}else{
+  tft.fillScreen(ST77XX_BLACK);
+  updateMappingBuffer();
+}
 }
