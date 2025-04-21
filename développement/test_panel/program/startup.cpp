@@ -2,7 +2,7 @@
 #include "screen.h"
 #include "Arduino.h"
 #include "logo.h"
-#include "buzzer.h"
+#include "sound.h"
 
 void showLogoWithMelody() {
   tft.fillScreen(ST77XX_BLACK);

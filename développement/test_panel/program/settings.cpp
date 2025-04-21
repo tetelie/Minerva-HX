@@ -1,5 +1,5 @@
 #include "settings.h"
-#include "buzzer.h"
+#include "sound.h"
 #include <Arduino.h>
 #include <Preferences.h>
 #include "theme.h"

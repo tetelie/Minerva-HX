@@ -2,7 +2,7 @@
 #include <Arduino.h>
 #include "screen.h"
 #include "theme.h"
-#include "buzzer.h"
+#include "sound.h"
 #include "map_minervahx.h"
 #include "map_test.h"
 
@@ -43,8 +43,8 @@ int updateMapping(){
   if(mapping != map_buffer)
   {
     // changement d'état
-    playMenuSound();
     map_buffer = mapping;
+    if(!mapping) playMenuSound();
     return 1;
   }
   return 0;
@@ -84,6 +84,7 @@ void start_map() {
 
   // Petites bulles animées (optionnel)
   for (int i = 0; i < 3; i++) {
+    if(soundEnabled) playSound(i, 100);
     tft.fillCircle(boxX + boxW - 40 + i * 8, boxY + boxH - 15, 3, boxColor);
     delay(600);
   }

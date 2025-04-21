@@ -2,10 +2,10 @@
 #include "screen.h"
 #include "theme.h"
 #include "mapping.h"
-#include "buzzer.h"
+#include "sound.h"
 
 int selectedOption = 0;
-String menuItems[] = {"Mappings", "Joysticks", "Potentiometers", "Sound", "Theme", "Quit"};
+String menuItems[] = {"Mappings", "Joysticks", "Sliders", "Sound", "Theme", "Quit"};
 int menuSize = 6;  // Total des options
 int visibleItems = 4;  // Nombre d'éléments visibles à l'écran
 

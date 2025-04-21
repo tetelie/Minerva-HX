@@ -1,6 +1,6 @@
 #include "menu_mapping.h"
 #include "screen.h"
-#include "buzzer.h"
+#include "sound.h"
 #include "pin.h"
 #include "settings.h"
 #include "menu.h"

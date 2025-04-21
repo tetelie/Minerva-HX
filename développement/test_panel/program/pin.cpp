@@ -1,5 +1,5 @@
 #include "pin.h"
-#include "buzzer.h"
+#include "sound.h"
 #include "pin.h"
 
 void init_pin()

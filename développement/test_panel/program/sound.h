@@ -16,3 +16,6 @@ extern bool soundEnabled;
 extern int currentSound;
 
 void playMenuSound();
+
+void playSound(int, int);
+int getSound(int);

@@ -1,7 +1,7 @@
-#include "menu_potentiometer.h"
+#include "menu_slider.h"
 #include "screen.h"
 #include "pin.h"
-#include "buzzer.h"
+#include "sound.h"
 #include "menu.h"
 #include "theme.h"
 
