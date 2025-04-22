@@ -36,7 +36,7 @@ void init_map(){
 }
 void readMapSwitch()
 {
-  mapping = digitalRead(32);
+  mapping = digitalRead(21);
 }
 
 int updateMapping(){

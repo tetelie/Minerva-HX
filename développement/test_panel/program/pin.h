@@ -2,9 +2,9 @@
 #include <Arduino.h>
 
 #define BUZZER_PIN 13
-#define LEFT_SLIDER 15
+#define LEFT_SLIDER 22
 #define RIGHT_SLIDER 0
-#define MAPPING_SWITCH 32
+#define MAPPING_SWITCH 21
 
 #define TFT_CS   5
 #define TFT_DC   2

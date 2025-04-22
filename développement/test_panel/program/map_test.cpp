@@ -2,10 +2,48 @@
 #include <Arduino.h>
 #include "screen.h"
 #include "theme.h"
+#include <WiFi.h>
+#include <esp_now.h>
+#include "pin.h"
+
+uint8_t receiverMAC[] = {0xF4, 0x65, 0x0B, 0x41, 0x50, 0xDC};
+
+typedef struct {
+  int value;
+} DataPacket;
+
+DataPacket dataToSend;
+
+void OnSent(const uint8_t *mac_addr, esp_now_send_status_t status) {
+  Serial.print("Envoi : ");
+  Serial.println(status == ESP_NOW_SEND_SUCCESS ? "Succès" : "Échec");
+}
 
 
 void testMap_setup()
 {
+  Serial.begin(115200);
+  WiFi.mode(WIFI_STA);
+  delay(100);
+  Serial.println("Mode STA activé. MAC : " + WiFi.macAddress());
+
+  if (esp_now_init() != ESP_OK) {
+    Serial.println("Erreur d'init ESP-NOW");
+    return;
+  }
+
+  esp_now_register_send_cb(OnSent);
+
+  esp_now_peer_info_t peerInfo = {};
+  memcpy(peerInfo.peer_addr, receiverMAC, 6);
+  peerInfo.channel = 0;
+  peerInfo.encrypt = false;
+
+  if (esp_now_add_peer(&peerInfo) != ESP_OK) {
+    Serial.println("Erreur d'ajout de peer");
+    return;
+  }
+
 
   tft.fillScreen(ST77XX_BLACK);
   tft.setTextSize(2);
@@ -23,7 +61,7 @@ void testMap_loop()
 
   static int lastXVal = -1;
 
-  int xVal = analogRead(15);
+  int xVal = analogRead(LEFT_SLIDER);
 
   int xBarLength = map(xVal, 0, 4095, 0, 160);
 
@@ -44,6 +82,12 @@ void testMap_loop()
       tft.print(xVal);
       lastXVal = xVal;
     }
+
+
+    dataToSend.value = xVal;
+
+    Serial.print(xVal);
+    esp_now_send(receiverMAC, (uint8_t*)&dataToSend, sizeof(dataToSend));
 
     delay(50);
 

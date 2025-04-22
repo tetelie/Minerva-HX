@@ -34,7 +34,7 @@ void potentiometerLiveView() {
   int lastYVal = -1;
 
   while (inJoystickView) {
-    int xVal = analogRead(15);
+    int xVal = analogRead(LEFT_SLIDER);
     int yVal = 4095 - analogRead(0);
     int zVal = digitalRead(JOYSTICK_1_Z);
 

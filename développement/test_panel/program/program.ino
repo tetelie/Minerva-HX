@@ -11,6 +11,7 @@
 #include "menu_mapping.h"
 #include "pin.h"
 #include "mapping.h"
+#include "bridge.h"
 
 
 void setup() {
@@ -21,22 +22,31 @@ void setup() {
   showLogoWithMelody();     // startup
   drawMenu(selectedOption); // display main menu
   init_map();
+  initBridge();
 }
 
 
 
 void loop() {
-  int xVal = analogRead(JOYSTICK_1_X);   // read joystick x axis
-  int yVal = analogRead(JOYSTICK_1_Y);   // read joystick y axis
-  int zVal = digitalRead(JOYSTICK_1_Z);  // read joystick z axis
+
 
   readMapSwitch();
+
+  Serial.println("test send.");
+  Serial2.println("test");
+
+  delay(1000);
+
 
   if(!mapping){ // si mapping = 0
     if(updateMapping())
     {
       drawMenu(selectedOption);
     }
+
+  int xVal = analogRead(JOYSTICK_1_X);   // read joystick x axis
+  int yVal = analogRead(JOYSTICK_1_Y);   // read joystick y axis
+  int zVal = digitalRead(JOYSTICK_1_Z);  // read joystick z axis
 
   //Serial.print(mapping);
 
