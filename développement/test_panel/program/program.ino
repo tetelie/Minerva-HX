@@ -32,10 +32,14 @@ void loop() {
 
   readMapSwitch();
 
-  Serial.println("test send.");
+  /*Serial.println("test send.");
   Serial2.println("test");
 
-  delay(1000);
+  delay(1000);*/
+
+  int xVal = analogRead(JOYSTICK_1_X);   // read joystick x axis
+  int yVal = analogRead(JOYSTICK_1_Y);   // read joystick y axis
+  int zVal = digitalRead(JOYSTICK_1_Z);  // read joystick z axis
 
 
   if(!mapping){ // si mapping = 0
@@ -44,9 +48,7 @@ void loop() {
       drawMenu(selectedOption);
     }
 
-  int xVal = analogRead(JOYSTICK_1_X);   // read joystick x axis
-  int yVal = analogRead(JOYSTICK_1_Y);   // read joystick y axis
-  int zVal = digitalRead(JOYSTICK_1_Z);  // read joystick z axis
+
 
   //Serial.print(mapping);
 
