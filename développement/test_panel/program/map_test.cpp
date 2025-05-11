@@ -53,6 +53,13 @@ void testMap_setup()
 
 }
 
+void testMap_disable()
+{
+  esp_now_deinit();            // Stoppe ESP-NOW
+  WiFi.mode(WIFI_OFF);         // Désactive le Wi-Fi
+
+}
+
 void testMap_loop()
 {
 

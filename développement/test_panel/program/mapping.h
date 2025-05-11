@@ -14,4 +14,5 @@ void init_map();
 void readMapSwitch();
 int updateMapping();
 void start_map();
+void disable_map();
 void run_map();

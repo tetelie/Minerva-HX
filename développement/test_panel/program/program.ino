@@ -17,16 +17,20 @@
 
 void setup() {
   Serial.begin(115200);     // set broadcast channel
+  Serial.println("=== debut du setup===");
   init_pin();               // set pin mode
   init_screen();            // setup screen
   loadSettings();      // load settings from flash memory
   showLogoWithMelody();     // startup
   drawMenu(selectedOption); // display main menu
-  init_expender();
-  //init_map();
   initBridge();
-
+  init_expender();
+  init_map();
   mcp.pinMode(7, OUTPUT);
+  Serial.println("=== fin du setup===");
+
+
+  //mcp.pinMode(6, INPUT_PULLUP);
 
 /*. DEBUG START
   tft.fillScreen(ST77XX_BLACK);  // Remplir l'écran avec du noir
@@ -52,7 +56,7 @@ void loop() {
   Serial.println(zVal);
 
   //drawMenu(selectedOption);
-  //readMapSwitch();
+  readMapSwitch();
 
   /*Serial.println("test send.");
   Serial2.println("test");
@@ -60,20 +64,40 @@ void loop() {
   delay(1000);*/
 /**/
 
+  readMapSwitch();
+
+
   mcp.digitalWrite(7, HIGH);
+
 
   int xVal = analogRead(JOYSTICK_1_X);   // read joystick x axis
   int yVal = analogRead(JOYSTICK_1_Y);   // read joystick y axis
   int zVal = digitalRead(JOYSTICK_1_Z);  // read joystick z axis
 
-  Serial.println(xVal);
-  Serial.println(yVal);
-  Serial.println(zVal);
+  //Serial.println(xVal);
+  //Serial.println(yVal);
+  //Serial.println(zVal);
 
+
+
+  Serial.println("test");
+
+  //Serial.println(mcp.digitalRead(6));
+
+  int tes;
+
+  tes = mcp.digitalRead(6);
+
+  Serial.println(tes);
 
   if(!mapping){ // si mapping = 0
     if(updateMapping())
     {
+      // disable
+      disable_map();
+      xVal = analogRead(JOYSTICK_1_X);   // read joystick x axis
+      yVal = analogRead(JOYSTICK_1_Y);   // read joystick y axis
+      zVal = digitalRead(JOYSTICK_1_Z);  // read joystick z axis
       drawMenu(selectedOption);
     }
 

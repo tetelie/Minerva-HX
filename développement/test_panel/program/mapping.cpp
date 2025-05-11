@@ -5,6 +5,8 @@
 #include "sound.h"
 #include "map_minervahx.h"
 #include "map_test.h"
+#include "pin.h"
+#include "expender.h"
 
 int map_buffer = 0;
 int mapping = 0;
@@ -29,6 +31,12 @@ MapFunction maps_setup[] = {
   testMap_setup
 };
 
+MapFunction maps_disable[] = {
+  nullptr,
+  nullptr,
+  testMap_disable
+};
+
 void init_map(){
   readMapSwitch();
   map_buffer = mapping;
@@ -36,7 +44,7 @@ void init_map(){
 }
 void readMapSwitch()
 {
-  mapping = digitalRead(21);
+  mapping = mcp.digitalRead(MAPPING_SWITCH);
 }
 
 int updateMapping(){
@@ -55,8 +63,13 @@ void run_map()
   maps_loop[activeMapIndex]();
 }
 
+void disable_map()
+{
+  maps_disable[activeMapIndex]();
+}
+
 void start_map() {
-  int xOffset = 50;  // Ajuste cette valeur pour centrer horizontalement à la main
+  int xOffset = 50;
 
   tft.fillScreen(ST77XX_BLACK);
 
@@ -82,7 +95,7 @@ void start_map() {
   tft.setCursor(boxX + 20, boxY + 60);
   tft.print(mappingOptions[activeMapIndex]);
 
-  // Petites bulles animées (optionnel)
+  // Petites bulles animées 
   for (int i = 0; i < 3; i++) {
     if(soundEnabled) playSound(i, 100);
     tft.fillCircle(boxX + boxW - 40 + i * 8, boxY + boxH - 15, 3, boxColor);

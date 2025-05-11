@@ -9,7 +9,7 @@
 #define RIGHT_SLIDER 0
 
 // switch
-#define MAPPING_SWITCH 21
+#define MAPPING_SWITCH 6
 
 // screen
 #define TFT_CS   5
