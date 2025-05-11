@@ -12,6 +12,7 @@
 #include "pin.h"
 #include "mapping.h"
 #include "bridge.h"
+#include "expender.h"
 
 
 void setup() {
@@ -21,25 +22,53 @@ void setup() {
   loadSettings();      // load settings from flash memory
   showLogoWithMelody();     // startup
   drawMenu(selectedOption); // display main menu
-  init_map();
+  init_expender();
+  //init_map();
   initBridge();
+
+  mcp.pinMode(7, OUTPUT);
+
+/*. DEBUG START
+  tft.fillScreen(ST77XX_BLACK);  // Remplir l'écran avec du noir
+  tft.setTextColor(ST77XX_WHITE);  // Texte en blanc
+  tft.setTextSize(2);  // Taille du texte
+  tft.setCursor(10, 10);  // Position du curseur
+  tft.print("Hello, ESP32!");
+}
+DEBUG STOP */
 }
 
 
-
 void loop() {
+  /*Serial.println("test");
+  delay(1000);
+  //playSound(0, 100);
+  int xVal = analogRead(JOYSTICK_1_X);   // read joystick x axis
+  int yVal = analogRead(JOYSTICK_1_Y);   // read joystick y axis
+  int zVal = digitalRead(JOYSTICK_1_Z);  // read joystick z axis
 
+  Serial.println(xVal);
+  Serial.println(yVal);
+  Serial.println(zVal);
 
-  readMapSwitch();
+  //drawMenu(selectedOption);
+  //readMapSwitch();
 
   /*Serial.println("test send.");
   Serial2.println("test");
 
   delay(1000);*/
+/**/
+
+  mcp.digitalWrite(7, HIGH);
 
   int xVal = analogRead(JOYSTICK_1_X);   // read joystick x axis
   int yVal = analogRead(JOYSTICK_1_Y);   // read joystick y axis
   int zVal = digitalRead(JOYSTICK_1_Z);  // read joystick z axis
+
+  Serial.println(xVal);
+  Serial.println(yVal);
+  Serial.println(zVal);
 
 
   if(!mapping){ // si mapping = 0
@@ -89,8 +118,13 @@ void loop() {
         // Quitter l'application
         break;
     }
-    delay(300);
+    delay(100);
   }
+    mcp.digitalWrite(7, LOW);
+    delay(100);
+
+    Serial2.println("test");
+
 
 }else{
   if(updateMapping())
