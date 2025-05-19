@@ -27,6 +27,10 @@ void setup() {
   init_expender();
   init_map();
   mcp.pinMode(7, OUTPUT);
+  mcp.pinMode(5, OUTPUT);
+  
+  mcp.digitalWrite(5, HIGH);
+
   Serial.println("=== fin du setup===");
 
 

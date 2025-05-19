@@ -25,5 +25,7 @@
 #define EXPENDER_SDA 21
 #define EXPENDER_SCL 22
 
+#define LED_4 5
+
 // setup
 void init_pin();
