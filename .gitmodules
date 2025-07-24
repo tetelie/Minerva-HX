@@ -1,0 +1,3 @@
+[submodule "Minerva-Pilot"]
+	path = Minerva-Pilot
+	url = git@github.com:tetelie/Minerva-Pilot.git
