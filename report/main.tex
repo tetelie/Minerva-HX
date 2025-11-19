@@ -15,6 +15,12 @@
 \usepackage{xcolor}
 \usepackage[francais]{babel}
 
+% Source - https://stackoverflow.com/a
+% Posted by gromgull
+% Retrieved 2025-11-19, License - CC BY-SA 2.5
+
+
+
 % En-têtes
 \pagestyle{fancy}
 \fancyhf{}
@@ -117,21 +123,7 @@ Tous les GND, quelle que soit la tension correspondante (16.8V, 6V ou 5V), doive
 
 \section{Schéma simplifié}
 
-\begin{verbatim}
-Batterie 16.8V
-   -> ESC (moteur)
-   -> UBEC 6V
-
-UBEC -> Servo 20kg
-     -> Récepteur RC
-     -> Step-down 6V -> 5V -> STM32
-
-CH1 RX -> STM32 -> Servo
-CH2 RX -> STM32 -> ESC signal
-
-TOUS GND -> Distribution de masse
-\end{verbatim}
-
+\includegraphics[width=1\textwidth]{../HXO1-2.png} \\[2cm]
 
 % =====================
 % CHAPITRE 4
