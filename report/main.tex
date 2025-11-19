@@ -1,0 +1,189 @@
+% Rapport technique projet voiture RC hybride
+% Modifier le chemin du logo dans la commande \includegraphics
+
+\documentclass[12pt,a4paper,french]{report}
+
+\usepackage{graphicx}
+\usepackage{setspace}
+\usepackage{hyperref}
+\usepackage{amsmath}
+\usepackage{geometry}
+\geometry{margin=2.5cm}
+\usepackage{titlesec}
+\usepackage{fancyhdr}
+\usepackage{caption}
+\usepackage{xcolor}
+\usepackage[francais]{babel}
+
+% En-têtes
+\pagestyle{fancy}
+\fancyhf{}
+\rhead{Projet Voiture RC Hybride}
+\lhead{Rapport Technique}
+\cfoot{\thepage}
+
+% Page de garde
+\begin{document}
+
+\begin{titlepage}
+    \centering
+    \vspace*{2cm}
+
+    % LOGO — À MODIFIER
+    \includegraphics[width=0.8\textwidth]{../identité/image/logo_full_alpha.png} \\[2cm]
+
+{\Huge\bfseries Projet de Véhicule RC Hybride}\\[1cm]
+{\Large Rapport Technique Complet}\\[2cm]
+
+
+    \vfill
+
+    {\large Auteur : Elie Deletang }\\[0.2cm]
+    {\large Date : \today }
+
+    \vspace*{1cm}
+\end{titlepage}
+
+\tableofcontents
+\newpage
+
+% =====================
+% CHAPITRE 1
+% =====================
+\chapter{Introduction}
+
+Ce rapport présente le développement complet d'un véhicule radiocommandé hybride contrôlé via une carte STM32. Le projet inclut l'utilisation d'un ESC Hobbywing XR8 Pro G3, d'un moteur brushless 4268SD 1900KV, d'un UBEC externe, d'un module step-down, d'un récepteur RC, ainsi que la gestion avancée des signaux PWM et de l'alimentation.
+
+L'objectif est de permettre un contrôle double~: radiocommande classique et contrôle autonome via microcontrôleur (WiFi, smartphone, ordinateur, etc.).
+
+
+% =====================
+% CHAPITRE 2
+% =====================
+\chapter{Matériel Utilisé}
+
+\section{Motorisation}
+\begin{itemize}
+    \item ESC Hobbywing Xerun XR8 Pro G3
+    \item Moteur Hobbywing 4268SD 1900KV sensored
+    \item Pack de condensateurs Hobbywing
+\end{itemize}
+
+\section{Électronique}
+\begin{itemize}
+    \item Carte STM32 Nucleo-G431RB
+    \item UBEC externe 6V (8A peak / 12A < 15s)
+    \item Convertisseur Step-down LM2596 (6V $\rightarrow$ 5V)
+    \item Potentiomètre $10k\Omega$
+    \item Servo direction 20kg
+    \item Récepteur RC (type Radiolink R9DS ou équivalent)
+    \item Radio 2.4 GHz multivoie
+    \item Module WiFi (extension future)
+    \item Distribution de masse (bus-bar)
+\end{itemize}
+
+\section{Énergie}
+\begin{itemize}
+    \item Batterie LiPo 4S 14.8V 6600mAh 75C
+    \item Câbles silicone 8-10AWG et 14AWG
+    \item Connecteurs XT90
+\end{itemize}
+
+
+% =====================
+% CHAPITRE 3
+% =====================
+\chapter{Architecture Électrique}
+
+L'ensemble électrique repose sur une structure à masses communes. Le point central de l'architecture est la distribution de masse permettant d'assurer une référence de tension universelle sur tous les circuits.
+
+\section{Principe des masses communes}
+Tous les GND, quelle que soit la tension correspondante (16.8V, 6V ou 5V), doivent être reliés ensemble. Ceci garantit~:
+
+\begin{itemize}
+    \item stabilité des signaux PWM,
+    \item fonctionnement correct de l'ESC et du servo,
+    \item prévention des différences de potentiel,
+    \item absence de bruit électrique.
+\end{itemize}
+
+\section{Répartition des tensions}
+
+\begin{itemize}
+    \item \textbf{Batterie 4S (16.8V)} : ESC + UBEC.
+    \item \textbf{UBEC 6V} : servo direction, récepteur RC, alimentation du step-down.
+    \item \textbf{Step-down 5V} : alimentation de la STM32.
+\end{itemize}
+
+\section{Schéma simplifié}
+
+\begin{verbatim}
+Batterie 16.8V
+   -> ESC (moteur)
+   -> UBEC 6V
+
+UBEC -> Servo 20kg
+     -> Récepteur RC
+     -> Step-down 6V -> 5V -> STM32
+
+CH1 RX -> STM32 -> Servo
+CH2 RX -> STM32 -> ESC signal
+
+TOUS GND -> Distribution de masse
+\end{verbatim}
+
+
+% =====================
+% CHAPITRE 4
+% =====================
+\chapter{Gestion des Signaux PWM}
+
+\section{Entrées PWM depuis la radiocommande}
+Les voies du récepteur (CH1, CH2, CH3...) sont reliées aux entrées de la STM32 pour permettre :
+
+\begin{itemize}
+    \item lecture des commandes utilisateur,
+    \item injection de logique (limiteurs, filtres, modes assistés),
+    \item compatibilité future avec un contrôle autonome.
+\end{itemize}
+
+Les signaux PWM étant en 5V, ils sont appliqués sur des pins 5V-tolerant ou via pont diviseur si nécessaire.
+
+\section{Sorties PWM vers servo et ESC}
+La STM32 génère des signaux PWM 1--2ms pour :
+\begin{itemize}
+    \item le servo de direction,
+    \item l'ESC brushless,
+    \item un servo de gaz thermique (extension possible).
+\end{itemize}
+
+Les signaux 3.3V de la STM32 sont compatibles avec les entrées PWM du servo et de l'ESC.
+
+
+% =====================
+% CHAPITRE 5
+% =====================
+\chapter{Extensions Futures}
+
+\section{Contrôle par smartphone}
+Le passage des PWM via la STM32 permet d'intégrer facilement un module WiFi ESP8266/ESP32 pour un pilotage HTTP, UDP ou MQTT.
+
+\section{Servo de gaz thermique}
+Un second servo peut être ajouté :
+\begin{itemize}
+    \item alimenté en 6V via l'UBEC,
+    \item contrôlé via une sortie PWM de la STM32,
+    \item lecture de CH3 du récepteur.
+\end{itemize}
+
+
+% =====================
+% CHAPITRE 6
+% =====================
+\chapter{Conclusion}
+
+Ce projet établit une plateforme RC hybride robuste, évolutive et hautement configurable. L'utilisation d'une carte STM32 au coeur du système offre un contrôle fin, des possibilités d'automatisation et une grande flexibilité pour des extensions futures telles que le contrôle smartphone ou le pilotage mixte électrique/thermique.
+
+Le schéma électrique validé est stable, sécuritaire et conforme aux bonnes pratiques du modélisme et de l'électronique embarquée.
+
+\end{document}
